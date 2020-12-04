@@ -88,7 +88,7 @@ public class GeoPoint {
      */
   	public int getLatitude() {
   		// TODO Implement this method
-  		assert false;
+  		assert false; 
   		return 0;
   	}
 
