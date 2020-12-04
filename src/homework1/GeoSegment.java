@@ -62,6 +62,8 @@ public class GeoSegment  {
      **/
   	public GeoSegment reverse() {
   		// TODO Implement this method
+  		assert false;
+  		return null;
   	}
 
 
@@ -71,6 +73,8 @@ public class GeoSegment  {
      */
   	public String getName() {
   		// TODO Implement this method
+  		assert false;
+  		return null;
   	}
 
 
@@ -80,6 +84,8 @@ public class GeoSegment  {
      */
   	public GeoPoint getP1() {
   		// TODO Implement this method
+  		assert false;
+  		return null;
   	}
 
 
@@ -89,6 +95,8 @@ public class GeoSegment  {
      */
   	public GeoPoint getP2() {
   		// TODO Implement this method
+  		assert false;
+  		return null;
   	}
 
 
@@ -99,6 +107,8 @@ public class GeoSegment  {
      */
   	public double getLength() {
   		// TODO Implement this method
+  		assert false;
+  		return 0;
   	}
 
 
@@ -110,6 +120,8 @@ public class GeoSegment  {
      **/
   	public double getHeading() {
   		// TODO Implement this method
+  		assert false;
+  		return 0;
   	}
 
 
@@ -120,6 +132,8 @@ public class GeoSegment  {
    	 **/
   	public boolean equals(Object gs) {
   		// TODO Implement this method
+  		assert false;
+  		return false;
   	}
 
 
@@ -141,6 +155,8 @@ public class GeoSegment  {
      **/
   	public String toString() {
   		// TODO Implement this method
+  		assert false;
+  		return null;
   	}
 
 }

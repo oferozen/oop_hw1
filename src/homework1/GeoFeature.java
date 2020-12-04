@@ -70,6 +70,7 @@ public class GeoFeature {
       */
   	public String getName() {
   		// TODO Implement this method
+  		return null;
   	}
 
 
@@ -79,6 +80,7 @@ public class GeoFeature {
      */
   	public GeoPoint getStart() {
   		// TODO Implement this method
+  		return null;
   	}
 
 
@@ -88,6 +90,7 @@ public class GeoFeature {
      */
   	public GeoPoint getEnd() {
   		// TODO Implement this method
+  		return null;
   	}
 
 
@@ -98,6 +101,7 @@ public class GeoFeature {
      */
   	public double getStartHeading() {
   		// TODO Implement this method
+  		return 0;
   	}
 
 
@@ -108,6 +112,7 @@ public class GeoFeature {
      */
   	public double getEndHeading() {
   		// TODO Implement this method
+  		return 0;
   	}
 
 
@@ -120,6 +125,7 @@ public class GeoFeature {
      */
   	public double getLength() {
   		// TODO Implement this method
+  		return 0;
   	}
 
 
@@ -134,6 +140,7 @@ public class GeoFeature {
      **/
   	public GeoFeature addSegment(GeoSegment gs) {
   		// TODO Implement this method
+  		return null;
   	}
 
 
@@ -157,6 +164,7 @@ public class GeoFeature {
      */
   	public Iterator<GeoSegment> getGeoSegments() {
   		// TODO Implement this method
+  		return null;
   	}
 
 
@@ -168,6 +176,7 @@ public class GeoFeature {
      **/
   	public boolean equals(Object o) {
   		// TODO Implement this method
+  		return false;
   	}
 
 
@@ -189,5 +198,6 @@ public class GeoFeature {
      **/
   	public String toString() {
   		// TODO Implement this method
+  		return null;
   	}
 }

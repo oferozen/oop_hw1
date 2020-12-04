@@ -88,6 +88,8 @@ public class GeoPoint {
      */
   	public int getLatitude() {
   		// TODO Implement this method
+  		assert false;
+  		return 0;
   	}
 
 
@@ -97,6 +99,8 @@ public class GeoPoint {
      */
   	public int getLongitude() {
   		// TODO Implement this method
+  		assert false;
+  		return 0;
   	}
 
 
@@ -108,6 +112,8 @@ public class GeoPoint {
      **/
   	public double distanceTo(GeoPoint gp) {
   		// TODO Implement this method
+  		assert false;
+  		return 0;
   	}
 
 
@@ -131,6 +137,8 @@ public class GeoPoint {
 		 // increase in the counterclockwise direction. 
 		 
   		// TODO Implement this method
+  		assert false;
+  		return 0;
   	}
 
 
@@ -141,6 +149,8 @@ public class GeoPoint {
      **/
   	public boolean equals(Object gp) {
   		// TODO Implement this method
+  		assert false;
+  		return false;
   	}
 
 
@@ -152,7 +162,8 @@ public class GeoPoint {
     	// This implementation will work, but you may want to modify it
     	// for improved performance.
 
-    	return 1;
+  		assert false;
+  		return 0;
   	}
 
 
@@ -162,6 +173,8 @@ public class GeoPoint {
      **/
   	public String toString() {
   		// TODO Implement this method
+  		assert false;
+  		return null;
   	}
 
 }

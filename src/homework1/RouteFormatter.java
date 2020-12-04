@@ -25,6 +25,8 @@ public abstract class RouteFormatter {
 		// String.
   		
   		// TODO Implement this method
+  		assert false;
+  		return null;
   	}
 
 
@@ -62,6 +64,8 @@ public abstract class RouteFormatter {
      */
   	protected String getTurnString(double origHeading, double newHeading) {
   		// TODO Implement this method
+  		assert false;
+  		return null;
   	}
 
 }
