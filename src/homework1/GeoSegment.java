@@ -41,123 +41,124 @@ package homework1;
  **/
 public class GeoSegment  {
 
-	
-  	// TODO Write abstraction function and representation invariant
-	
-	
-  	/**
-     * Constructs a new GeoSegment with the specified name and endpoints.
-     * @requires name != null && p1 != null && p2 != null
-     * @effects constructs a new GeoSegment with the specified name and endpoints.
-     **/
-  	public GeoSegment(String name, GeoPoint p1, GeoPoint p2) {
-  		// TODO Implement this method
-  	}
-
-
-  	/**
-     * Returns a new GeoSegment like this one, but with its endpoints reversed.
-     * @return a new GeoSegment gs such that gs.name = this.name
-     *         && gs.p1 = this.p2 && gs.p2 = this.p1
-     **/
-  	public GeoSegment reverse() {
-  		// TODO Implement this method
-  		assert false;
-  		return null;
-  	}
-
-
-  	/**
-  	 * Returns the name of this GeoSegment.
-     * @return the name of this GeoSegment.
-     */
-  	public String getName() {
-  		// TODO Implement this method
-  		assert false;
-  		return null;
-  	}
-
-
-  	/**
-  	 * Returns first endpoint of the segment.
-     * @return first endpoint of the segment.
-     */
-  	public GeoPoint getP1() {
-  		// TODO Implement this method
-  		assert false;
-  		return null;
-  	}
-
-
-  	/**
-  	 * Returns second endpoint of the segment.
-     * @return second endpoint of the segment.
-     */
-  	public GeoPoint getP2() {
-  		// TODO Implement this method
-  		assert false;
-  		return null;
-  	}
-
-
-  	/**
-  	 * Returns the length of the segment.
-     * @return the length of the segment, using the flat-surface, near the
-     *         Technion approximation.
-     */
-  	public double getLength() {
-  		// TODO Implement this method
-  		assert false;
-  		return 0;
-  	}
-
-
-  	/**
-  	 * Returns the compass heading from p1 to p2.
-     * @requires this.length != 0
-     * @return the compass heading from p1 to p2, in degrees, using the
-     *         flat-surface, near the Technion approximation.
-     **/
-  	public double getHeading() {
-  		// TODO Implement this method
-  		assert false;
-  		return 0;
-  	}
-
-
-  	/**
-     * Compares the specified Object with this GeoSegment for equality.
-     * @return gs != null && (gs instanceof GeoSegment)
-     *         && gs.name = this.name && gs.p1 = this.p1 && gs.p2 = this.p2
-   	 **/
-  	public boolean equals(Object gs) {
-  		// TODO Implement this method
-  		assert false;
-  		return false;
-  	}
-
-
-  	/**
-  	 * Returns a hash code value for this.
-     * @return a hash code value for this.
-     **/
-  	public int hashCode() {
-    	// This implementation will work, but you may want to modify it 
-    	// for improved performance. 
-
-    	return 1;
-  	}
-
-
-  	/**
-  	 * Returns a string representation of this.
-     * @return a string representation of this.
-     **/
-  	public String toString() {
-  		// TODO Implement this method
-  		assert false;
-  		return null;
-  	}
+        private String name;
+        private GeoPoint p1;
+        private GeoPoint p2;
+        private double length;
+        private double heading;
+        
+        // TODO Write abstraction function and representation invariant
+        
+        
+        /**
+         * Constructs a new GeoSegment with the specified name and endpoints.
+         * @requires name != null && p1 != null && p2 != null
+         * @effects constructs a new GeoSegment with the specified name and endpoints.
+         **/
+        public GeoSegment(String name, GeoPoint p1, GeoPoint p2) {
+            this.name = name;
+            this.p1 = p1;
+            this.p2 = p2;
+            this.length = p1.distanceTo(p2);
+            this.heading = p1.headingTo(p2);
+        }
+        
+        
+        /**
+         * Returns a new GeoSegment like this one, but with its endpoints reversed.
+         * @return a new GeoSegment gs such that gs.name = this.name
+         *         && gs.p1 = this.p2 && gs.p2 = this.p1
+         **/
+        public GeoSegment reverse() {
+        	return new GeoSegment(name, p2, p1);
+        }
+        
+        
+        /**
+         * Returns the name of this GeoSegment.
+         * @return the name of this GeoSegment.
+         */
+        public String getName() {
+            return name;
+        }
+        
+        
+        /**
+         * Returns first endpoint of the segment.
+         * @return first endpoint of the segment.
+         */
+        public GeoPoint getP1() {
+            return p1;
+        }
+        
+        
+        /**
+         * Returns second endpoint of the segment.
+         * @return second endpoint of the segment.
+         */
+        public GeoPoint getP2() {
+            return p2;
+        }
+        
+        
+        /**
+         * Returns the length of the segment.
+         * @return the length of the segment, using the flat-surface, near the
+         *         Technion approximation.
+         */
+        public double getLength() {
+            return length;
+        }
+        
+        
+        /**
+         * Returns the compass heading from p1 to p2.
+         * @requires this.length != 0
+         * @return the compass heading from p1 to p2, in degrees, using the
+         *         flat-surface, near the Technion approximation.
+         **/
+        public double getHeading() {
+            return heading;
+        }
+        
+        
+        /**
+         * Compares the specified Object with this GeoSegment for equality.
+         * @return gs != null && (gs instanceof GeoSegment)
+         *         && gs.name = this.name && gs.p1 = this.p1 && gs.p2 = this.p2
+         **/
+        public boolean equals(Object gs) {
+      	  
+  	      // self check
+  	      if (this == gs)
+  	          return true;
+  	      
+  	      // type check and cast
+  	      if (getClass() != gs.getClass())
+  	          return false;
+  	      
+  	      // field comparison
+  	      GeoSegment other = (GeoSegment) gs;
+  	      return this.p1.equals(other.p1) && this.p2.equals(other.p2);
+        }
+        
+        
+        /**
+         * Returns a hash code value for this.
+         * @return a hash code value for this.
+         **/
+        public int hashCode() {
+      	  return this.name.hashCode() ^ this.p1.hashCode() ^ this.p2.hashCode();
+        }
+        
+        
+        /**
+         * Returns a string representation of this.
+         * @return a string representation of this.
+         **/
+        public String toString() {
+        	return String.format("%s, %s, %s", this.name, this.p1.toString(), this.p2.toString());
+        }
 
 }
 

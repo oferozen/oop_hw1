@@ -1,5 +1,6 @@
 package homework1;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 
 /**
@@ -30,121 +31,141 @@ import java.util.Iterator;
  *   end : GeoPoint         // location of the end of the geographic feature
  *   startHeading : angle   // direction of travel at the start of the geographic feature, in degrees
  *   endHeading : angle     // direction of travel at the end of the geographic feature, in degrees
- *   geoSegments : sequence	// a sequence of segments that make up this geographic feature
+ *   geoSegments : sequence    // a sequence of segments that make up this geographic feature
  *   name : String          // name of geographic feature
  *   length : real          // total length of the geographic feature, in kilometers
  * </pre>
  **/
 public class GeoFeature {
-	
-	// Implementation hint:
-	// When asked to return an Iterator, consider using the iterator() method
-	// in the List interface. Two nice classes that implement the List
-	// interface are ArrayList and LinkedList. If comparing two Lists for
-	// equality is needed, consider using the equals() method of List. More
-	// info can be found at:
-	//   http://docs.oracle.com/javase/8/docs/api/java/util/List.html
-	
-	
-  	// TODO Write abstraction function and representation invariant
+    
+    // Implementation hint:
+    // When asked to return an Iterator, consider using the iterator() method
+    // in the List interface. Two nice classes that implement the List
+    // interface are ArrayList and LinkedList. If comparing two Lists for
+    // equality is needed, consider using the equals() method of List. More
+    // info can be found at:
+    //   http://docs.oracle.com/javase/8/docs/api/java/util/List.html
+    
+    
+      // TODO Write abstraction function and representation invariant
 
-	
-	/**
+	ArrayList<GeoSegment> geoSegments = new ArrayList<GeoSegment>();
+	double length = 0;
+	GeoPoint start;
+	GeoPoint end;
+	double startHeading;
+	String name;
+	double endHeading;
+    	
+    /**
      * Constructs a new GeoFeature.
      * @requires gs != null
      * @effects Constructs a new GeoFeature, r, such that
-     *	        r.name = gs.name &&
+     *          r.name = gs.name &&
      *          r.startHeading = gs.heading &&
      *          r.endHeading = gs.heading &&
      *          r.start = gs.p1 &&
      *          r.end = gs.p2
      **/
-  	public GeoFeature(GeoSegment gs) {
-  		// TODO Implement this constructor
-  	}
-  
+	public GeoFeature(GeoSegment gs) {
+	    geoSegments.add(gs);
+	    length = gs.getLength();
+	    start = gs.getP1();
+	    end = gs.getP2();
+	    startHeading = gs.getHeading();
+	    endHeading = startHeading;
+	    name = gs.getName();
+	}
 
- 	/**
- 	  * Returns name of geographic feature.
-      * @return name of geographic feature
-      */
-  	public String getName() {
-  		// TODO Implement this method
-  		return null;
-  	}
+    /**
+     * Constructs a new GeoFeature.
+     * @effects Constructs a new GeoFeature.
+     *          This object methods cannot be accessed. 
+     **/
+	private GeoFeature() {}
+	
+
+    /**
+     * Returns name of geographic feature.
+     * @return name of geographic feature
+     */
+    public String getName() {
+        return name;
+    }
 
 
-  	/**
-  	 * Returns location of the start of the geographic feature.
+    /**
+     * Returns location of the start of the geographic feature.
      * @return location of the start of the geographic feature.
      */
-  	public GeoPoint getStart() {
-  		// TODO Implement this method
-  		return null;
-  	}
+    public GeoPoint getStart() {
+   	  return start;
+    }
 
 
-  	/**
-  	 * Returns location of the end of the geographic feature.
+    /**
+     * Returns location of the end of the geographic feature.
      * @return location of the end of the geographic feature.
      */
-  	public GeoPoint getEnd() {
-  		// TODO Implement this method
-  		return null;
-  	}
+    public GeoPoint getEnd() {
+   	  return end;
+    }
 
 
-  	/**
-  	 * Returns direction of travel at the start of the geographic feature.
+    /**
+     * Returns direction of travel at the start of the geographic feature.
      * @return direction (in standard heading) of travel at the start of the
      *         geographic feature, in degrees.
      */
-  	public double getStartHeading() {
-  		// TODO Implement this method
-  		return 0;
-  	}
+    public double getStartHeading() {
+        return startHeading;
+    }
 
 
-  	/**
-  	 * Returns direction of travel at the end of the geographic feature.
+    /**
+     * Returns direction of travel at the end of the geographic feature.
      * @return direction (in standard heading) of travel at the end of the
      *         geographic feature, in degrees.
      */
-  	public double getEndHeading() {
-  		// TODO Implement this method
-  		return 0;
-  	}
+    public double getEndHeading() {
+   	  return endHeading;
+    }
 
 
-  	/**
-  	 * Returns total length of the geographic feature, in kilometers.
+    /**
+     * Returns total length of the geographic feature, in kilometers.
      * @return total length of the geographic feature, in kilometers.
      *         NOTE: this is NOT as-the-crow-flies, but rather the total
      *         distance required to traverse the geographic feature. These
      *         values are not necessarily equal.
      */
-  	public double getLength() {
-  		// TODO Implement this method
-  		return 0;
-  	}
+    public double getLength() {
+        return length;
+    }
 
 
-  	/**
-   	 * Creates a new GeoFeature that is equal to this GeoFeature with gs
-   	 * appended to its end.
-     * @requires gs != null && gs.p1 = this.end && gs.name = this.name.
-     * @return a new GeoFeature r such that
-     *         r.end = gs.p2 &&
-     *         r.endHeading = gs.heading &&
-     *    	   r.length = this.length + gs.length
-     **/
-  	public GeoFeature addSegment(GeoSegment gs) {
-  		// TODO Implement this method
-  		return null;
-  	}
+    /**
+      * Creates a new GeoFeature that is equal to this GeoFeature with gs
+      * appended to its end.
+      * @requires gs != null && gs.p1 = this.end && gs.name = this.name.
+      * @return a new GeoFeature r such that
+      *         r.end = gs.p2 &&
+      *         r.endHeading = gs.heading &&
+      *           r.length = this.length + gs.length
+      **/
+    public GeoFeature addSegment(GeoSegment gs) {
+    	
+        GeoFeature newGf = new GeoFeature(this.geoSegments.get(0));
+        newGf.geoSegments.addAll(this.geoSegments.subList(1, this.geoSegments.size() - 1));
+        newGf.geoSegments.add(gs);
+        newGf.end = gs.getP2();
+        newGf.endHeading = gs.getHeading();
+        newGf.length = this.length + gs.getLength();        
+        return newGf;
+    }
 
 
-  	/**
+    /**
      * Returns an Iterator of GeoSegment objects. The concatenation of the
      * GeoSegments, in order, is equivalent to this GeoFeature. All the
      * GeoSegments have the same name.
@@ -162,42 +183,66 @@ public class GeoFeature {
      * where <code>a[n]</code> denotes the nth element of the Iterator.
      * @see homework1.GeoSegment
      */
-  	public Iterator<GeoSegment> getGeoSegments() {
-  		// TODO Implement this method
-  		return null;
-  	}
+    public Iterator<GeoSegment> getGeoSegments() {
+        return geoSegments.iterator();
+    }
 
 
-  	/**
+    /**
      * Compares the argument with this GeoFeature for equality.
      * @return o != null && (o instanceof GeoFeature) &&
      *         (o.geoSegments and this.geoSegments contain
      *          the same elements in the same order).
      **/
-  	public boolean equals(Object o) {
-  		// TODO Implement this method
-  		return false;
-  	}
+    public boolean equals(Object o) {
+          	  
+	    // self check
+	    if (this == o)
+	        return true;
+	    
+	    // type check and cast
+	    if (getClass() != o.getClass())
+	        return false;
+	    
+	    ArrayList<GeoSegment> gsList = ((GeoFeature) o).geoSegments;
+	    
+	    // Compare size
+	    if (this.geoSegments.size() != gsList.size()) {
+	    	return false;
+	    }
+	    
+	    // Compare elements
+	    for (int i = 0; i <= geoSegments.size(); i++) {
+	    	if (!this.geoSegments.get(i).equals(gsList.get(i))) {
+	    		return false;
+	    	}
+	    }
+	    return true;
+    }
 
 
-  	/**
+    /**
      * Returns a hash code for this.
      * @return a hash code for this.
      **/
-  	public int hashCode() {
-    	// This implementation will work, but you may want to modify it
-    	// improved performance.
-    	
-    	return 1;
-  	}
+    public int hashCode() {
+      // This implementation will work, but you may want to modify it
+      // improved performance.
+      
+      return 1;
+    }
 
 
-  	/**
-  	 * Returns a string representation of this.
-   	 * @return a string representation of this.
+    /**
+     * Returns a string representation of this.
+     * @return a string representation of this.
      **/
-  	public String toString() {
-  		// TODO Implement this method
-  		return null;
-  	}
+    public String toString() {
+        String result = geoSegments.get(0).toString();
+        
+	    for (int i = 0; i <= geoSegments.size(); i++) {
+	    	result = String.format("%s,%s", result, geoSegments.get(i));
+	    }
+    	return result;
+    }
 }

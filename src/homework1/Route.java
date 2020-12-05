@@ -1,5 +1,6 @@
 package homework1;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 
 /**
@@ -36,6 +37,7 @@ public class Route {
 	
  	// TODO Write abstraction function and representation invariant
 
+	ArrayList<GeoSegment> geoSegments = new ArrayList<>();
 
   	/**
   	 * Constructs a new Route.
@@ -47,7 +49,7 @@ public class Route {
      *          r.end = gs.p2
      **/
   	public Route(GeoSegment gs) {
-  		// TODO Implement this constructor
+  		geoSegments.add(gs);
   	}
 
 
