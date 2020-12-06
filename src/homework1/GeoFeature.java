@@ -49,13 +49,8 @@ public class GeoFeature {
     
       // TODO Write abstraction function and representation invariant
 
-	ArrayList<GeoSegment> geoSegments = new ArrayList<GeoSegment>();
-	double length = 0;
-	GeoPoint start;
-	GeoPoint end;
-	double startHeading;
-	String name;
-	double endHeading;
+	final ArrayList<GeoSegment> _geoSegments = new ArrayList<GeoSegment>();
+	final double _length;
     	
     /**
      * Constructs a new GeoFeature.
@@ -68,29 +63,55 @@ public class GeoFeature {
      *          r.end = gs.p2
      **/
 	public GeoFeature(GeoSegment gs) {
-	    geoSegments.add(gs);
-	    length = gs.getLength();
-	    start = gs.getP1();
-	    end = gs.getP2();
-	    startHeading = gs.getHeading();
-	    endHeading = startHeading;
-	    name = gs.getName();
+	    _geoSegments.add(gs);
+	    _length = gs.getLength();
 	}
 
     /**
      * Constructs a new GeoFeature.
-     * @effects Constructs a new GeoFeature.
-     *          This object methods cannot be accessed. 
+     * @requires gs != null && gs.size() != 0
+     * @effects Constructs a new GeoFeature, r, such that
+     *          r.name = gs.name &&
+     *          r.startHeading = gs.heading &&
+     *          r.endHeading = gs.heading &&
+     *          r.start = gs.p1 &&
+     *          r.end = gs.p2
      **/
-	private GeoFeature() {}
+	private GeoFeature(ArrayList<GeoSegment> gs) {
+		_geoSegments.addAll(gs);
+		
+		double length = 0;
+		
+		var iter = gs.iterator();
+		while (iter.hasNext()) {
+			length += iter.next().getLength();
+		}
+		
+		_length = length;
+	}
 	
+	/**
+     * Returns the first GeoSegment in the list
+     * @return first GeoSegment in the list
+     */
+	private GeoSegment firstGeoSegment() {
+		return _geoSegments.get(0);
+	}
 
+	/**
+     * Returns the last GeoSegment in the list
+     * @return last GeoSegment in the list
+     */
+	private GeoSegment lastGeoSegment() {
+		return _geoSegments.get(_geoSegments.size() - 1);
+	}
+	
     /**
      * Returns name of geographic feature.
      * @return name of geographic feature
      */
     public String getName() {
-        return name;
+        return firstGeoSegment().getName();
     }
 
 
@@ -99,7 +120,7 @@ public class GeoFeature {
      * @return location of the start of the geographic feature.
      */
     public GeoPoint getStart() {
-   	  return start;
+   	  return firstGeoSegment().getP1();
     }
 
 
@@ -108,7 +129,7 @@ public class GeoFeature {
      * @return location of the end of the geographic feature.
      */
     public GeoPoint getEnd() {
-   	  return end;
+   	  return lastGeoSegment().getP2();
     }
 
 
@@ -118,7 +139,7 @@ public class GeoFeature {
      *         geographic feature, in degrees.
      */
     public double getStartHeading() {
-        return startHeading;
+        return firstGeoSegment().getHeading();
     }
 
 
@@ -128,7 +149,7 @@ public class GeoFeature {
      *         geographic feature, in degrees.
      */
     public double getEndHeading() {
-   	  return endHeading;
+   	  return lastGeoSegment().getHeading();
     }
 
 
@@ -140,7 +161,7 @@ public class GeoFeature {
      *         values are not necessarily equal.
      */
     public double getLength() {
-        return length;
+        return _length;
     }
 
 
@@ -155,13 +176,9 @@ public class GeoFeature {
       **/
     public GeoFeature addSegment(GeoSegment gs) {
     	
-        GeoFeature newGf = new GeoFeature(this.geoSegments.get(0));
-        newGf.geoSegments.addAll(this.geoSegments.subList(1, this.geoSegments.size() - 1));
-        newGf.geoSegments.add(gs);
-        newGf.end = gs.getP2();
-        newGf.endHeading = gs.getHeading();
-        newGf.length = this.length + gs.getLength();        
-        return newGf;
+    	var segmentList = new ArrayList<GeoSegment>(_geoSegments);
+    	segmentList.add(gs);
+    	return new GeoFeature(segmentList);
     }
 
 
@@ -184,7 +201,7 @@ public class GeoFeature {
      * @see homework1.GeoSegment
      */
     public Iterator<GeoSegment> getGeoSegments() {
-        return geoSegments.iterator();
+        return _geoSegments.iterator();
     }
 
 
@@ -200,20 +217,24 @@ public class GeoFeature {
 	    if (this == o)
 	        return true;
 	    
+	      if (o == null) {
+  	    	  return false;
+  	      }
+	    
 	    // type check and cast
 	    if (getClass() != o.getClass())
 	        return false;
 	    
-	    ArrayList<GeoSegment> gsList = ((GeoFeature) o).geoSegments;
+	    ArrayList<GeoSegment> gsList = ((GeoFeature) o)._geoSegments;
 	    
 	    // Compare size
-	    if (this.geoSegments.size() != gsList.size()) {
+	    if (this._geoSegments.size() != gsList.size()) {
 	    	return false;
 	    }
 	    
 	    // Compare elements
-	    for (int i = 0; i <= geoSegments.size(); i++) {
-	    	if (!this.geoSegments.get(i).equals(gsList.get(i))) {
+	    for (int i = 0; i <= _geoSegments.size(); i++) {
+	    	if (!this._geoSegments.get(i).equals(gsList.get(i))) {
 	    		return false;
 	    	}
 	    }
@@ -238,10 +259,10 @@ public class GeoFeature {
      * @return a string representation of this.
      **/
     public String toString() {
-        String result = geoSegments.get(0).toString();
+        String result = _geoSegments.get(0).toString();
         
-	    for (int i = 0; i <= geoSegments.size(); i++) {
-	    	result = String.format("%s,%s", result, geoSegments.get(i));
+	    for (int i = 0; i <= _geoSegments.size(); i++) {
+	    	result = String.format("%s,%s", result, _geoSegments.get(i));
 	    }
     	return result;
     }

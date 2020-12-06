@@ -24,9 +24,17 @@ public abstract class RouteFormatter {
 		// feature in this route and concatenate the results into a single
 		// String.
   		
-  		// TODO Implement this method
-  		assert false;
-  		return null;
+  		var directions = new String();
+  		var iter = route.getGeoFeatures();
+  		
+  		double currentHeading = heading;
+  		while (iter.hasNext()) {
+  			var currentGeoFeature = iter.next(); 
+  			directions.concat(computeLine(currentGeoFeature, currentHeading));
+  			currentHeading = currentGeoFeature.getEndHeading();
+  		}
+  		
+  		return directions;
   	}
 
 
@@ -63,9 +71,16 @@ public abstract class RouteFormatter {
      * and likewise for left turns.
      */
   	protected String getTurnString(double origHeading, double newHeading) {
-  		// TODO Implement this method
-  		assert false;
-  		return null;
+  		
+  		double heading = ((newHeading - origHeading + 360) % 360) - 180;
+  		var direction = heading > 0 ? "right" : "left";
+  		heading = Math.abs(heading);
+  		
+  		if (heading < 10 )  return "Continue";
+  		if (heading < 60 )  return String.format("Turn slight %s", direction);
+  		if (heading < 120 ) return String.format("Turn %s", direction);
+  		if (heading < 179 ) return String.format("Turn sharp %s", direction);
+  		return "U-turn";
   	}
 
 }

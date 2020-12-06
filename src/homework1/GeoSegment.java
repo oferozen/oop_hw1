@@ -41,11 +41,11 @@ package homework1;
  **/
 public class GeoSegment  {
 
-        private String name;
-        private GeoPoint p1;
-        private GeoPoint p2;
-        private double length;
-        private double heading;
+        final private String name;
+        final private GeoPoint p1;
+        final private GeoPoint p2;
+        final private double length;
+        final private double heading;
         
         // TODO Write abstraction function and representation invariant
         
@@ -133,13 +133,17 @@ public class GeoSegment  {
   	      if (this == gs)
   	          return true;
   	      
+  	      if (gs == null) {
+  	    	  return false;
+  	      }
+  	      
   	      // type check and cast
   	      if (getClass() != gs.getClass())
   	          return false;
   	      
   	      // field comparison
   	      GeoSegment other = (GeoSegment) gs;
-  	      return this.p1.equals(other.p1) && this.p2.equals(other.p2);
+  	      return this.p1.equals(other.p1) && this.p2.equals(other.p2) && this.name == other.name;
         }
         
         
