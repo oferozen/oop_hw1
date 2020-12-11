@@ -48,6 +48,24 @@ public class GeoSegment  {
         final private double heading;
         
         // TODO Write abstraction function and representation invariant
+        /*
+         * Abstraction function:
+         * 
+         * Representation invariant:
+         *  
+         *  
+         */
+        
+        /**
+         * Checks if this's status is in line with the representation invariant. 
+         * If this is not the case then the running of the program will stop since the checking operation is done 
+         * using the "assert" function.
+         * @effect if assert is enabled, program stops running in case the current status of this
+         * 		   does not fulfill the representation invariant
+         **/
+      	private void checkRep() {
+      		return;
+      	}
         
         
         /**
@@ -61,6 +79,7 @@ public class GeoSegment  {
             this.p2 = p2;
             this.length = p1.distanceTo(p2);
             this.heading = p1.headingTo(p2);
+            checkRep();
         }
         
         
@@ -70,6 +89,7 @@ public class GeoSegment  {
          *         && gs.p1 = this.p2 && gs.p2 = this.p1
          **/
         public GeoSegment reverse() {
+        	checkRep();
         	return new GeoSegment(name, p2, p1);
         }
         
@@ -79,6 +99,7 @@ public class GeoSegment  {
          * @return the name of this GeoSegment.
          */
         public String getName() {
+        	checkRep();
             return name;
         }
         
@@ -88,6 +109,7 @@ public class GeoSegment  {
          * @return first endpoint of the segment.
          */
         public GeoPoint getP1() {
+        	checkRep();
             return p1;
         }
         
@@ -97,6 +119,7 @@ public class GeoSegment  {
          * @return second endpoint of the segment.
          */
         public GeoPoint getP2() {
+        	checkRep();
             return p2;
         }
         
@@ -118,6 +141,7 @@ public class GeoSegment  {
          *         flat-surface, near the Technion approximation.
          **/
         public double getHeading() {
+        	checkRep();
             return heading;
         }
         
@@ -128,22 +152,28 @@ public class GeoSegment  {
          *         && gs.name = this.name && gs.p1 = this.p1 && gs.p2 = this.p2
          **/
         public boolean equals(Object gs) {
-      	  
-  	      // self check
-  	      if (this == gs)
-  	          return true;
+        	checkRep();
+        	
+        	// self check
+  	      	if (this == gs) {
+  	      		return true;
+  	      	}
+  	      	
+  	      	if (gs == null) {
+  	      		return false;
+  	      	}
   	      
-  	      if (gs == null) {
-  	    	  return false;
-  	      }
+  	      	// type check and cast
+  	      	if (getClass() != gs.getClass()) {
+  	      		checkRep();
+  	      		return false;
+  	      	}
   	      
-  	      // type check and cast
-  	      if (getClass() != gs.getClass())
-  	          return false;
-  	      
-  	      // field comparison
-  	      GeoSegment other = (GeoSegment) gs;
-  	      return this.p1.equals(other.p1) && this.p2.equals(other.p2) && this.name == other.name;
+  	      	// field comparison
+  	      	GeoSegment other = (GeoSegment) gs;
+  	      	
+  	        checkRep();
+  	      	return this.p1.equals(other.p1) && this.p2.equals(other.p2) && this.name == other.name;
         }
         
         
@@ -152,7 +182,12 @@ public class GeoSegment  {
          * @return a hash code value for this.
          **/
         public int hashCode() {
-      	  return this.name.hashCode() ^ this.p1.hashCode() ^ this.p2.hashCode();
+        	checkRep();
+        	//we use bit-wise XOR between the three components that make up the representation of a 
+        	// geo-segment (using the built-in hash for the string field)
+        	// this provides a viable hash since it is an actual function which means that the hash of a segment is well defined.
+        	// in addition to that, it's not entirely unique and this could make it quite helpful in possible uses in hash tables.
+        	return this.name.hashCode() ^ this.p1.hashCode() ^ this.p2.hashCode();
         }
         
         
@@ -161,6 +196,7 @@ public class GeoSegment  {
          * @return a string representation of this.
          **/
         public String toString() {
+        	checkRep();
         	return String.format("%s, %s, %s", this.name, this.p1.toString(), this.p2.toString());
         }
 

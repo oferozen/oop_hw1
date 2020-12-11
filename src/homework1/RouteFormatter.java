@@ -30,7 +30,7 @@ public abstract class RouteFormatter {
   		double currentHeading = heading;
   		while (iter.hasNext()) {
   			var currentGeoFeature = iter.next(); 
-  			directions.concat(computeLine(currentGeoFeature, currentHeading));
+  			directions = directions.concat(computeLine(currentGeoFeature, currentHeading));
   			currentHeading = currentGeoFeature.getEndHeading();
   		}
   		
@@ -72,8 +72,11 @@ public abstract class RouteFormatter {
      */
   	protected String getTurnString(double origHeading, double newHeading) {
   		
-  		double heading = ((newHeading - origHeading + 360) % 360) - 180;
-  		var direction = heading > 0 ? "right" : "left";
+  		double heading = ((newHeading - origHeading + 360) % 360);
+  		var direction = heading < 180 ? "right" : "left";  // the other way around ?
+  		if(direction == "left") {
+  			heading = 360 - heading;
+  		}
   		heading = Math.abs(heading);
   		
   		if (heading < 10 )  return "Continue";

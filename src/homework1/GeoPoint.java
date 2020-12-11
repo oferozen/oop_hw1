@@ -64,10 +64,11 @@ public class GeoPoint {
     // and distance computations). Because of this, you should consider 
     // using ints for your internal representation of GeoPoint. 
 
+    
+    // TODO : change to _variable
     private final int latitude;
     private final int longitude;
     
-    // TODO Write abstraction function and representation invariant
     /*
      * Abstraction function:
      *   Geographic decimal coordinate (decimalLatitude, decimalLongitude) =>
@@ -83,9 +84,23 @@ public class GeoPoint {
      *
      * Representation invariant:
      *   decimalLatitude >= MIN_LATITUDE && decimalLatitude <= MAX_LATITUDE &&
-     *   decimalLongitute >= MAX_LONGITUDE && decimalLongitute <= MAX_LONGITUDE
+     *   decimalLongitute > MIN_LONGITUDE && decimalLongitute <= MAX_LONGITUDE
      *  
      */
+    
+    /**
+     * Checks if this's status (latitude and longitude private fields of this) is in line with the representation invariant. 
+     * If this is not the case then the running of the program will stop since the checking operation is done 
+     * using the "assert" function.
+     * @effect if assert is enabled, program stops running in case the current status of this
+     * 		   does not fulfill the representation invariant
+     **/
+  	private void checkRep() {
+  		assert(this.latitude <= 90*1000000);
+  		assert(this.latitude >= -90*1000000);
+  		assert(this.longitude <= 180*1000000);
+  		assert(this.longitude > -180*1000000);
+  	}
     
     /**
      * Constructs GeoPoint from a latitude and longitude.
@@ -97,8 +112,13 @@ public class GeoPoint {
      *          given in millionths of degrees.
      **/
     public GeoPoint(int latitude, int longitude) {
-        this.latitude = latitude;
-        this.longitude = longitude;
+        this.latitude = latitude; 
+        if(longitude == -180 * 1000000) {
+        	this.longitude = -longitude;
+        }else {
+        	this.longitude = longitude;
+        }
+        checkRep();
     }
 
      
@@ -107,6 +127,7 @@ public class GeoPoint {
      * @return the latitude of this in millionths of degrees.
      */
     public int getLatitude() {
+    	checkRep();
         return this.latitude;
     }
 
@@ -116,6 +137,7 @@ public class GeoPoint {
      * @return the latitude of this in millionths of degrees.
      */
     public int getLongitude() {
+    	checkRep();
         return this.longitude;
     }
 
@@ -127,14 +149,20 @@ public class GeoPoint {
      *         the Technion approximation.
      **/
     public double distanceTo(GeoPoint gp) {
-        
-        double latitudeDeltaNormalized =  Math.abs(this.latitude - gp.latitude) / 1000000.0;
+    	checkRep();
+    	
+    	// Calculating the distance of the latitude component of the two points
+        double latitudeDeltaNormalized =  Math.abs(this.latitude - gp.latitude) / 1000000.0; 
         double latitdudeDistanceKm = latitudeDeltaNormalized * KM_PER_DEGREE_LATITUDE;
         
+        // Calculating the distance of the longitude component of the two points
         double longtitudeDeltaNormalized =  Math.abs(this.longitude - gp.longitude) / 1000000.0;
         double longtitudeDistanceKm = longtitudeDeltaNormalized * KM_PER_DEGREE_LONGITUDE;
         
+        // Calculating the distance between the two points
         double distance = Math.sqrt(Math.pow(latitdudeDistanceKm, 2) + Math.pow(longtitudeDistanceKm, 2));
+        
+        checkRep();
         return distance;
     }
 
@@ -157,13 +185,21 @@ public class GeoPoint {
        // degrees and degrees increase in the clockwise direction. By
        // mathematical convention, "east" is 0 degrees, and degrees
        // increase in the counterclockwise direction. 
-
-        double latitudeDelta =  gp.latitude - this.latitude;
+    	checkRep();
+    	
+        double latitudeDelta =  gp.latitude - this.latitude; 
         double longitudeDelta =  gp.longitude - this.longitude;
         
-        double heading = - Math.atan2(latitudeDelta, longitudeDelta);
-        heading = 360 * heading / (2 * Math.PI);
-        heading = (heading + 360 + 90) % 360;
+        // Calculating the angle in radians between the heading directing of a straight path 
+        // that starts in point this and ends in poing gp and the positive direction of the X axis.
+        double heading = - Math.atan2(latitudeDelta, longitudeDelta); 
+        
+        heading = 360 * heading / (2 * Math.PI); // convert radians to degrees
+        
+        // transforming the angle to one that is measured with the positive direction of the Y axis (north)
+        heading = (heading + 360 + 90) % 360;  
+        
+        checkRep();
         return heading;
     }
 
@@ -174,22 +210,25 @@ public class GeoPoint {
      *            gp.latitude = this.latitude && gp.longitude = this.longitude
      **/
     public boolean equals(Object gp) {
+    	checkRep();
+        // self check
+        if (this == gp)
+        	return true;
         
-          // self check
-          if (this == gp)
-              return true;
-          
         if (gp == null) {
-              return false;
+           return false;
           }
           
-          // type check and cast
-          if (getClass() != gp.getClass())
-              return false;
+        // type check and cast
+        if (getClass() != gp.getClass()) {
+        	checkRep();
+        	return false;
+        }
           
-          // field comparison
-          GeoPoint other = (GeoPoint) gp;
-          return this.latitude == other.latitude && this.longitude == other.longitude;
+        // field comparison
+        GeoPoint other = (GeoPoint) gp;
+        checkRep();
+        return this.latitude == other.latitude && this.longitude == other.longitude;
     }
 
 
@@ -198,9 +237,10 @@ public class GeoPoint {
      * @return a hash code value for this GeoPoint.
      **/
     public int hashCode() {
-        // This implementation will work, but you may want to modify it
-        // for improved performance.
-
+    	checkRep();
+    	// bit-wise XOR between the two numbers the make up the representation of a geo-point 
+    	// provides a viable hash since it is an actual function which means that the hash of a point is well defined.
+    	// in addition to that, it's not entirely unique and this could make it quite helpful in possible uses in hash tables. 
         return this.latitude ^ this.longitude;
     }
 
@@ -211,6 +251,7 @@ public class GeoPoint {
      **/
     public String toString() {
         // TODO Implement this method
+    	checkRep();
         return String.format("%d,%d", this.latitude, this.longitude);
     }
 

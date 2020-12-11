@@ -48,6 +48,24 @@ public class GeoFeature {
     
     
       // TODO Write abstraction function and representation invariant
+	/*
+     * Abstraction function:
+     * 
+     * Representation invariant:
+     *  
+     *  
+     */
+    
+    /**
+     * Checks if this's status is in line with the representation invariant. 
+     * If this is not the case then the running of the program will stop since the checking operation is done 
+     * using the "assert" function.
+     * @effect if assert is enabled, program stops running in case the current status of this
+     * 		   does not fulfill the representation invariant
+     **/
+  	private void checkRep() {
+  		return;
+  	}
 
 	final ArrayList<GeoSegment> _geoSegments = new ArrayList<GeoSegment>();
 	final double _length;
@@ -65,6 +83,7 @@ public class GeoFeature {
 	public GeoFeature(GeoSegment gs) {
 	    _geoSegments.add(gs);
 	    _length = gs.getLength();
+	    checkRep();
 	}
 
     /**
@@ -86,8 +105,8 @@ public class GeoFeature {
 		while (iter.hasNext()) {
 			length += iter.next().getLength();
 		}
-		
 		_length = length;
+		checkRep();
 	}
 	
 	/**
@@ -111,6 +130,7 @@ public class GeoFeature {
      * @return name of geographic feature
      */
     public String getName() {
+    	checkRep();
         return firstGeoSegment().getName();
     }
 
@@ -120,7 +140,8 @@ public class GeoFeature {
      * @return location of the start of the geographic feature.
      */
     public GeoPoint getStart() {
-   	  return firstGeoSegment().getP1();
+    	checkRep();
+   	  	return firstGeoSegment().getP1();
     }
 
 
@@ -129,7 +150,8 @@ public class GeoFeature {
      * @return location of the end of the geographic feature.
      */
     public GeoPoint getEnd() {
-   	  return lastGeoSegment().getP2();
+    	checkRep();
+   	  	return lastGeoSegment().getP2();
     }
 
 
@@ -139,6 +161,7 @@ public class GeoFeature {
      *         geographic feature, in degrees.
      */
     public double getStartHeading() {
+    	checkRep();
         return firstGeoSegment().getHeading();
     }
 
@@ -149,7 +172,8 @@ public class GeoFeature {
      *         geographic feature, in degrees.
      */
     public double getEndHeading() {
-   	  return lastGeoSegment().getHeading();
+    	checkRep();
+    	return lastGeoSegment().getHeading();
     }
 
 
@@ -161,6 +185,7 @@ public class GeoFeature {
      *         values are not necessarily equal.
      */
     public double getLength() {
+    	checkRep();
         return _length;
     }
 
@@ -175,9 +200,10 @@ public class GeoFeature {
       *           r.length = this.length + gs.length
       **/
     public GeoFeature addSegment(GeoSegment gs) {
-    	
+    	checkRep();
     	var segmentList = new ArrayList<GeoSegment>(_geoSegments);
     	segmentList.add(gs);
+    	checkRep();
     	return new GeoFeature(segmentList);
     }
 
@@ -201,6 +227,7 @@ public class GeoFeature {
      * @see homework1.GeoSegment
      */
     public Iterator<GeoSegment> getGeoSegments() {
+    	checkRep();
         return _geoSegments.iterator();
     }
 
@@ -212,7 +239,7 @@ public class GeoFeature {
      *          the same elements in the same order).
      **/
     public boolean equals(Object o) {
-          	  
+    	checkRep();
 	    // self check
 	    if (this == o)
 	        return true;
@@ -222,22 +249,27 @@ public class GeoFeature {
   	      }
 	    
 	    // type check and cast
-	    if (getClass() != o.getClass())
+	    if (getClass() != o.getClass()) {
+	    	checkRep();
 	        return false;
+	    }
 	    
 	    ArrayList<GeoSegment> gsList = ((GeoFeature) o)._geoSegments;
 	    
 	    // Compare size
 	    if (this._geoSegments.size() != gsList.size()) {
+	    	checkRep();
 	    	return false;
 	    }
 	    
 	    // Compare elements
 	    for (int i = 0; i <= _geoSegments.size(); i++) {
 	    	if (!this._geoSegments.get(i).equals(gsList.get(i))) {
+	    		checkRep();
 	    		return false;
 	    	}
 	    }
+	    checkRep();
 	    return true;
     }
 
@@ -247,10 +279,10 @@ public class GeoFeature {
      * @return a hash code for this.
      **/
     public int hashCode() {
-      // This implementation will work, but you may want to modify it
-      // improved performance.
-      
-      return 1;
+    	checkRep();
+      //TODO
+    	
+    	return 1;
     }
 
 
@@ -259,11 +291,13 @@ public class GeoFeature {
      * @return a string representation of this.
      **/
     public String toString() {
+    	checkRep();
         String result = _geoSegments.get(0).toString();
         
 	    for (int i = 0; i <= _geoSegments.size(); i++) {
-	    	result = String.format("%s,%s", result, _geoSegments.get(i));
+	    	result = String.format("%s,%s", result, _geoSegments.get(i)); // get(i) ?
 	    }
+	    checkRep();
     	return result;
     }
 }
