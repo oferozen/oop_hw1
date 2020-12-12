@@ -201,8 +201,7 @@ public class Route {
   		ArrayList<GeoFeature> geoFeatures = new ArrayList<GeoFeature>();
   		Iterator<GeoSegment> iter = _geoSegments.iterator();
   		
-  		var currentGeoFeature = new GeoFeature(iter.next()); // why next ?
-  		geoFeatures.add(currentGeoFeature);
+  		var currentGeoFeature = new GeoFeature(iter.next());
   		
   		while(iter.hasNext()) {
   			var currentGeoSegment = iter.next();

@@ -12,6 +12,8 @@ public class WalkingRouteFormatterTest {
     			new GeoPoint(32783098,35014528), new GeoPoint(32787081,35020735)));
     		mShortRoute = mShortRoute.addSegment(new GeoSegment("Hagalil",
     			new GeoPoint(32787081,35020735), new GeoPoint(32795631,35010296)));
+    		mShortRoute = mShortRoute.addSegment(new GeoSegment("Hagefen",
+    				new GeoPoint(32795631,35010296), new GeoPoint(32795631,35010296)));
   	}
   	
   	
@@ -19,7 +21,6 @@ public class WalkingRouteFormatterTest {
 		String directions =
 			"Turn slight right onto Trumpeldor Avenue and walk for 15 minutes.\n" +
     		"Turn left onto Hagalil and walk for 27 minutes.\n";
-    
 		if (mDirections.computeDirections(mShortRoute, 0).equals(directions))
 			System.out.println("Test passed correctly");
 		else

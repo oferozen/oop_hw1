@@ -25,12 +25,12 @@ public abstract class RouteFormatter {
 		// String.
   		
   		var directions = new String();
-  		var iter = route.getGeoFeatures();
+  		var iter = route.getGeoFeatures();   
   		
   		double currentHeading = heading;
   		while (iter.hasNext()) {
   			var currentGeoFeature = iter.next(); 
-  			directions = directions.concat(computeLine(currentGeoFeature, currentHeading));
+  			directions = directions.concat(computeLine(currentGeoFeature, currentHeading)); 
   			currentHeading = currentGeoFeature.getEndHeading();
   		}
   		

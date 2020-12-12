@@ -59,9 +59,21 @@ public class WalkingRouteFormatter extends RouteFormatter {
 		// http://docs.oracle.com/javase/tutorial/java/data/numberformat.html
 		// and at:
 		// http://docs.oracle.com/javase/8/docs/api/java/text/DecimalFormat.html
-					 
-  		// TODO Implement this method
-  		assert false;
-  		return null;
+  		
+  		if (geoFeature == null)
+		{
+			return "error: null argument";
+		}else if ((origHeading < 0) || (origHeading >= 360)) {
+			return "error: bad arguments";
+		}
+  		
+  		// Handling the case in which the geofeature's length is zero by "typing nothing"
+  		if(geoFeature.getLength() == 0) { 
+  			return "";
+  		}
+  		
+  		double timeToWalk = 20 * geoFeature.getLength();
+		return getTurnString(origHeading, geoFeature.getStartHeading()) + " onto " + geoFeature.getName()
+				                                 + " and walk for " + String.valueOf((int) Math.round(timeToWalk)) + " minutes.\n";
   	}
 }

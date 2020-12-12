@@ -58,8 +58,21 @@ public class DrivingRouteFormatter extends RouteFormatter {
   		// and at:
   		// http://docs.oracle.com/javase/8/docs/api/java/text/DecimalFormat.html
 		   		
-  		// TODO Implement this method
-  		return null;
+  		if (geoFeature == null)
+		{
+			return "error: null argument";
+		}else if ((origHeading < 0) || (origHeading >= 360)) {
+			return "error: bad arguments";
+		}
+  		
+  		// Handling the case in which the geofeature's length is zero by "typing nothing"
+  		if(geoFeature.getLength() == 0) { 
+  			return "";
+  		}
+  		
+  		return String.format("%s onto %s and go %.1f kilometers.\n",
+  									getTurnString(origHeading, geoFeature.getStartHeading()),
+  												geoFeature.getName(), geoFeature.getLength()); 
   	}
 
 }

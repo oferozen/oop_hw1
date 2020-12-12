@@ -19,7 +19,6 @@ public class DrivingRouteFormatterTest {
 		String directions =
 			"Turn slight right onto Trumpeldor Avenue and go 0.7 kilometers.\n" +
 			"Turn left onto Hagalil and go 1.4 kilometers.\n";
-    
 		if (mDirections.computeDirections(mShortRoute, 0).equals(directions))
 			System.out.println("Test passed correctly");
 		else

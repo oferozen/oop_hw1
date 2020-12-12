@@ -238,7 +238,7 @@ public class GeoPoint {
      **/
     public int hashCode() {
     	checkRep();
-    	// bit-wise XOR between the two numbers the make up the representation of a geo-point 
+    	// bit-wise XOR between the two numbers that make up the representation of a geo-point 
     	// provides a viable hash since it is an actual function which means that the hash of a point is well defined.
     	// in addition to that, it's not entirely unique and this could make it quite helpful in possible uses in hash tables. 
         return this.latitude ^ this.longitude;
@@ -250,7 +250,6 @@ public class GeoPoint {
      * @return a string representation of this GeoPoint.
      **/
     public String toString() {
-        // TODO Implement this method
     	checkRep();
         return String.format("%d,%d", this.latitude, this.longitude);
     }
