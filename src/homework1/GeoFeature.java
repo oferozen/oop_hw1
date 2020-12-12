@@ -274,7 +274,7 @@ public class GeoFeature {
 	    }
 	    
 	    // Compare elements
-	    for (int i = 0; i <= this.segments.size(); i++) {
+	    for (int i = 0; i < this.segments.size(); i++) {
 	    	if (!this.segments.get(i).equals(gsList.get(i))) {
 	    		checkRep();
 	    		return false;
