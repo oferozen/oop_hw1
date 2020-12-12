@@ -41,11 +41,11 @@ package homework1;
  **/
 public class GeoSegment  {
 
-        final private String _name;
-        final private GeoPoint _p1;
-        final private GeoPoint _p2;
-        final private double _length;
-        final private double _heading;
+        final private String name;
+        final private GeoPoint p1;
+        final private GeoPoint p2;
+        final private double length;
+        final private double heading;
         
         /*
          * Abstraction function:
@@ -73,11 +73,11 @@ public class GeoSegment  {
          * @effects constructs a new GeoSegment with the specified name and endpoints.
          **/
         public GeoSegment(String name, GeoPoint p1, GeoPoint p2) {
-            this._name = name;
-            this._p1 = p1;
-            this._p2 = p2;
-            this._length = p1.distanceTo(p2);
-            this._heading = p1.headingTo(p2);
+            this.name = name;
+            this.p1 = p1;
+            this.p2 = p2;
+            this.length = p1.distanceTo(p2);
+            this.heading = p1.headingTo(p2);
             checkRep();
         }
         
@@ -89,7 +89,7 @@ public class GeoSegment  {
          **/
         public GeoSegment reverse() {
         	checkRep();
-        	return new GeoSegment(_name, _p2, _p1);
+        	return new GeoSegment(this.name, this.p2, this.p1);
         }
         
         
@@ -99,7 +99,7 @@ public class GeoSegment  {
          */
         public String getName() {
         	checkRep();
-            return _name;
+            return this.name;
         }
         
         
@@ -109,7 +109,7 @@ public class GeoSegment  {
          */
         public GeoPoint getP1() {
         	checkRep();
-            return _p1;
+            return this.p1;
         }
         
         
@@ -119,7 +119,7 @@ public class GeoSegment  {
          */
         public GeoPoint getP2() {
         	checkRep();
-            return _p2;
+            return this.p2;
         }
         
         
@@ -129,7 +129,7 @@ public class GeoSegment  {
          *         Technion approximation.
          */
         public double getLength() {
-            return _length;
+            return length;
         }
         
         
@@ -141,7 +141,7 @@ public class GeoSegment  {
          **/
         public double getHeading() {
         	checkRep();
-            return _heading;
+            return heading;
         }
         
         
@@ -172,7 +172,7 @@ public class GeoSegment  {
   	      	GeoSegment other = (GeoSegment) gs;
   	      	
   	        checkRep();
-  	      	return this._p1.equals(other._p1) && this._p2.equals(other._p2) && this._name == other._name;
+  	      	return this.p1.equals(other.p1) && this.p2.equals(other.p2) && this.name == other.name;
         }
         
         
@@ -186,7 +186,7 @@ public class GeoSegment  {
         	// geo-segment (using the built-in hash for the string field)
         	// this provides a viable hash since it is an actual function which means that the hash of a segment is well defined.
         	// in addition to that, it's not entirely unique and this could make it quite helpful in possible uses in hash tables.
-        	return this._name.hashCode() ^ this._p1.hashCode() ^ this._p2.hashCode();
+        	return this.name.hashCode() ^ this.p1.hashCode() ^ this.p2.hashCode();
         }
         
         
@@ -196,7 +196,7 @@ public class GeoSegment  {
          **/
         public String toString() {
         	checkRep();
-        	return String.format("%s, %s, %s", this._name, this._p1.toString(), this._p2.toString());
+        	return String.format("%s, %s, %s", this.name, this.p1.toString(), this.p2.toString());
         }
 
 }

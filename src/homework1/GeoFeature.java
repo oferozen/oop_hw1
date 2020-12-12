@@ -49,16 +49,16 @@ public class GeoFeature {
 	/*
      * Abstraction function:
      *     Geofeature map a list of segments into a path composed of a series of the following linear lines:
-     *     (_segments[0].p1, _segments[0].p2), (_segments[1].p1, _segments[1].p2), ...,  (_segments.last().p1, _segments.last().p2).
+     *     (segments[0].p1, segments[0].p2), (segments[1].p1, segments[1].p2), ...,  (segments.last().p1, segments.last().p2).
      *      
      * Representation invariant:
-     *     _segments.size() != 0 &&
-     *     foreach i in 0..(_segments.size()-2) => _segments[i].p2 == _segments[i+1].p1 
+     *     segments.size() != 0 &&
+     *     foreach i in 0..(segments.size()-2) => segments[i].p2 == segments[i+1].p1 
      *  
      */
     
-	private final ArrayList<GeoSegment> _segments = new ArrayList<GeoSegment>();
-	private final double _length;
+	private final ArrayList<GeoSegment> segments = new ArrayList<GeoSegment>();
+	private final double length;
 
     /**
      * Checks if this's status is in line with the representation invariant. 
@@ -69,9 +69,9 @@ public class GeoFeature {
      **/
   	private void checkRep() {
   		
-  		assert(_segments.size() != 0);
+  		assert(this.segments.size() != 0);
   		
-  		var iter = _segments.iterator();
+  		var iter = this.segments.iterator();
   		GeoSegment current = iter.next();
   		while (iter.hasNext()) {
   			var next = iter.next();
@@ -92,8 +92,8 @@ public class GeoFeature {
      *          r.end = gs.p2
      **/
 	public GeoFeature(GeoSegment gs) {
-	    _segments.add(gs);
-	    _length = gs.getLength();
+		this.segments.add(gs);
+		this.length = gs.getLength();
 	    checkRep();
 	}
 
@@ -108,7 +108,7 @@ public class GeoFeature {
      *          r.end = gs.p2
      **/
 	private GeoFeature(ArrayList<GeoSegment> gs) {
-		_segments.addAll(gs);
+		this.segments.addAll(gs);
 		
 		double length = 0;
 		
@@ -116,7 +116,7 @@ public class GeoFeature {
 		while (iter.hasNext()) {
 			length += iter.next().getLength();
 		}
-		_length = length;
+		this.length = length;
 		checkRep();
 	}
 	
@@ -125,7 +125,7 @@ public class GeoFeature {
      * @return first GeoSegment in the list
      */
 	private GeoSegment firstGeoSegment() {
-		return _segments.get(0);
+		return this.segments.get(0);
 	}
 
 	/**
@@ -133,7 +133,7 @@ public class GeoFeature {
      * @return last GeoSegment in the list
      */
 	private GeoSegment lastGeoSegment() {
-		return _segments.get(_segments.size() - 1);
+		return this.segments.get(this.segments.size() - 1);
 	}
 	
     /**
@@ -197,7 +197,7 @@ public class GeoFeature {
      */
     public double getLength() {
     	checkRep();
-        return _length;
+        return this.length;
     }
 
 
@@ -212,7 +212,7 @@ public class GeoFeature {
       **/
     public GeoFeature addSegment(GeoSegment gs) {
     	checkRep();
-    	var segmentList = new ArrayList<GeoSegment>(_segments);
+    	var segmentList = new ArrayList<GeoSegment>(this.segments);
     	segmentList.add(gs);
     	checkRep();
     	return new GeoFeature(segmentList);
@@ -239,7 +239,7 @@ public class GeoFeature {
      */
     public Iterator<GeoSegment> getGeoSegments() {
     	checkRep();
-        return _segments.iterator();
+        return this.segments.iterator();
     }
 
 
@@ -265,17 +265,17 @@ public class GeoFeature {
 	        return false;
 	    }
 	    
-	    ArrayList<GeoSegment> gsList = ((GeoFeature) o)._segments;
+	    ArrayList<GeoSegment> gsList = ((GeoFeature) o).segments;
 	    
 	    // Compare size
-	    if (this._segments.size() != gsList.size()) {
+	    if (this.segments.size() != gsList.size()) {
 	    	checkRep();
 	    	return false;
 	    }
 	    
 	    // Compare elements
-	    for (int i = 0; i <= _segments.size(); i++) {
-	    	if (!this._segments.get(i).equals(gsList.get(i))) {
+	    for (int i = 0; i <= this.segments.size(); i++) {
+	    	if (!this.segments.get(i).equals(gsList.get(i))) {
 	    		checkRep();
 	    		return false;
 	    	}
@@ -301,10 +301,10 @@ public class GeoFeature {
      **/
     public String toString() {
     	checkRep();
-        String result = _segments.get(0).toString();
+        String result = this.segments.get(0).toString();
         
-	    for (int i = 0; i <= _segments.size(); i++) {
-	    	result = String.format("%s,%s", result, _segments.get(i)); // get(i) ?
+	    for (int i = 0; i <= this.segments.size(); i++) {
+	    	result = String.format("%s,%s", result, this.segments.get(i)); // get(i) ?
 	    }
 	    checkRep();
     	return result;

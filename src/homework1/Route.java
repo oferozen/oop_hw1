@@ -34,8 +34,8 @@ import java.util.Iterator;
  **/
 public class Route {
 
-	private final ArrayList<GeoSegment> _segments = new ArrayList<GeoSegment>();
-	private final double _length;
+	private final ArrayList<GeoSegment> segments = new ArrayList<GeoSegment>();
+	private final double length;
 
 	/*
      * Abstraction function:
@@ -43,8 +43,8 @@ public class Route {
      *     longest consecutive segments with the same name.
      *      
      * Representation invariant:
-     *     _segments.size() != 0 &&
-     *     foreach i in 0..(_segments.size()-2) => _segments[i].p2 == _segments[i+1].p1 
+     *     segments.size() != 0 &&
+     *     foreach i in 0..(segments.size()-2) => segments[i].p2 == segments[i+1].p1 
      *  
      */
     /**
@@ -56,9 +56,9 @@ public class Route {
      **/
   	private void checkRep() {
   		
-  		assert(_segments.size() != 0);
+  		assert(segments.size() != 0);
   		
-  		var iter = _segments.iterator();
+  		var iter = segments.iterator();
   		GeoSegment current = iter.next();
   		while (iter.hasNext()) {
   			var next = iter.next();
@@ -78,8 +78,8 @@ public class Route {
      *          r.end = gs.p2
      **/
   	public Route(GeoSegment gs) {
-  		_segments.add(gs);
-  		_length = gs.getLength();
+  		this.segments.add(gs);
+  		this.length = gs.getLength();
   		checkRep();
   	}
 
@@ -89,7 +89,7 @@ public class Route {
      *          Methods are invalid until class exit point;
      **/
   	private Route(ArrayList<GeoSegment> geoSegments) {
-  		_segments.addAll(geoSegments);
+  		this.segments.addAll(geoSegments);
 		
   		double length = 0;
 		
@@ -97,7 +97,7 @@ public class Route {
 		while (iter.hasNext()) {
 			length += iter.next().getLength();
 		}
-		_length = length;
+		this.length = length;
 		checkRep();
   	}
   	
@@ -106,7 +106,7 @@ public class Route {
      * @return first GeoSegment in the list
      */
 	private GeoSegment firstGeoSegment() {
-		return _segments.get(0);
+		return this.segments.get(0);
 	}
 
 	/**
@@ -114,7 +114,7 @@ public class Route {
      * @return last GeoSegment in the list
      */
 	private GeoSegment lastGeoSegment() {
-		return _segments.get(_segments.size() - 1);
+		return this.segments.get(this.segments.size() - 1);
 	}
 
     /**
@@ -167,7 +167,7 @@ public class Route {
    	 **/
   	public double getLength() {
   		checkRep();
-  		return _length;
+  		return this.length;
   	}
 
 
@@ -182,7 +182,7 @@ public class Route {
      **/
   	public Route addSegment(GeoSegment gs) {
   		checkRep();
-  		var geoSegments = new ArrayList<>(_segments);
+  		var geoSegments = new ArrayList<>(this.segments);
   		geoSegments.add(gs);
   		checkRep();
   		return new Route(geoSegments);
@@ -210,7 +210,7 @@ public class Route {
   	public Iterator<GeoFeature> getGeoFeatures() {
   		checkRep();
   		ArrayList<GeoFeature> geoFeatures = new ArrayList<GeoFeature>();
-  		Iterator<GeoSegment> iter = _segments.iterator();
+  		Iterator<GeoSegment> iter = this.segments.iterator();
   		
   		var currentGeoFeature = new GeoFeature(iter.next());
   		
@@ -251,7 +251,7 @@ public class Route {
      **/
   	public Iterator<GeoSegment> getGeoSegments() {
   		checkRep();
-  		return _segments.iterator();
+  		return this.segments.iterator();
   	}
 
 
@@ -278,17 +278,17 @@ public class Route {
 	    	return false;
 	    }
 	    
-	    ArrayList<GeoSegment> gsList = ((Route) o)._segments;
+	    ArrayList<GeoSegment> gsList = ((Route) o).segments;
 	    
 	    // Compare size
-	    if (this._segments.size() != gsList.size()) {
+	    if (this.segments.size() != gsList.size()) {
 	    	checkRep();
 	    	return false;
 	    }
 	    
 	    // Compare elements
-	    for (int i = 0; i <= _segments.size(); i++) {
-	    	if (!this._segments.get(i).equals(gsList.get(i))) {
+	    for (int i = 0; i <= this.segments.size(); i++) {
+	    	if (!this.segments.get(i).equals(gsList.get(i))) {
 	    		checkRep();
 	    		return false;
 	    	}
@@ -316,10 +316,10 @@ public class Route {
      **/
   	public String toString() {
   		checkRep();
-        String result = _segments.get(0).toString();
+        String result = this.segments.get(0).toString();
         
-	    for (int i = 0; i <= _segments.size(); i++) {
-	    	result = String.format("%s,%s", result, _segments.get(i));
+	    for (int i = 0; i <= this.segments.size(); i++) {
+	    	result = String.format("%s,%s", result, this.segments.get(i));
 	    }
 	    checkRep();
     	return result;
