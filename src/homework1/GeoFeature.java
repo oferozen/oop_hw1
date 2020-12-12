@@ -46,16 +46,20 @@ public class GeoFeature {
     // info can be found at:
     //   http://docs.oracle.com/javase/8/docs/api/java/util/List.html
     
-    
-      // TODO Write abstraction function and representation invariant
 	/*
      * Abstraction function:
-     * 
+     *     Geofeature map a list of segments into a path composed of a series of the following linear lines:
+     *     (_segments[0].p1, _segments[0].p2), (_segments[1].p1, _segments[1].p2), ...,  (_segments.last().p1, _segments.last().p2).
+     *      
      * Representation invariant:
-     *  
+     *     _segments.size() != 0 &&
+     *     foreach i in 0..(_segments.size()-2) => _segments[i].p2 == _segments[i+1].p1 
      *  
      */
     
+	private final ArrayList<GeoSegment> _segments = new ArrayList<GeoSegment>();
+	private final double _length;
+
     /**
      * Checks if this's status is in line with the representation invariant. 
      * If this is not the case then the running of the program will stop since the checking operation is done 
@@ -64,12 +68,19 @@ public class GeoFeature {
      * 		   does not fulfill the representation invariant
      **/
   	private void checkRep() {
-  		return;
+  		
+  		assert(_segments.size() != 0);
+  		
+  		var iter = _segments.iterator();
+  		GeoSegment current = iter.next();
+  		while (iter.hasNext()) {
+  			var next = iter.next();
+  			assert(current.getP2().equals(next.getP1()));
+  			current = next;
+  		}
+  		
   	}
-
-	final ArrayList<GeoSegment> _geoSegments = new ArrayList<GeoSegment>();
-	final double _length;
-    	
+	
     /**
      * Constructs a new GeoFeature.
      * @requires gs != null
@@ -81,7 +92,7 @@ public class GeoFeature {
      *          r.end = gs.p2
      **/
 	public GeoFeature(GeoSegment gs) {
-	    _geoSegments.add(gs);
+	    _segments.add(gs);
 	    _length = gs.getLength();
 	    checkRep();
 	}
@@ -97,7 +108,7 @@ public class GeoFeature {
      *          r.end = gs.p2
      **/
 	private GeoFeature(ArrayList<GeoSegment> gs) {
-		_geoSegments.addAll(gs);
+		_segments.addAll(gs);
 		
 		double length = 0;
 		
@@ -114,7 +125,7 @@ public class GeoFeature {
      * @return first GeoSegment in the list
      */
 	private GeoSegment firstGeoSegment() {
-		return _geoSegments.get(0);
+		return _segments.get(0);
 	}
 
 	/**
@@ -122,7 +133,7 @@ public class GeoFeature {
      * @return last GeoSegment in the list
      */
 	private GeoSegment lastGeoSegment() {
-		return _geoSegments.get(_geoSegments.size() - 1);
+		return _segments.get(_segments.size() - 1);
 	}
 	
     /**
@@ -201,7 +212,7 @@ public class GeoFeature {
       **/
     public GeoFeature addSegment(GeoSegment gs) {
     	checkRep();
-    	var segmentList = new ArrayList<GeoSegment>(_geoSegments);
+    	var segmentList = new ArrayList<GeoSegment>(_segments);
     	segmentList.add(gs);
     	checkRep();
     	return new GeoFeature(segmentList);
@@ -228,7 +239,7 @@ public class GeoFeature {
      */
     public Iterator<GeoSegment> getGeoSegments() {
     	checkRep();
-        return _geoSegments.iterator();
+        return _segments.iterator();
     }
 
 
@@ -254,17 +265,17 @@ public class GeoFeature {
 	        return false;
 	    }
 	    
-	    ArrayList<GeoSegment> gsList = ((GeoFeature) o)._geoSegments;
+	    ArrayList<GeoSegment> gsList = ((GeoFeature) o)._segments;
 	    
 	    // Compare size
-	    if (this._geoSegments.size() != gsList.size()) {
+	    if (this._segments.size() != gsList.size()) {
 	    	checkRep();
 	    	return false;
 	    }
 	    
 	    // Compare elements
-	    for (int i = 0; i <= _geoSegments.size(); i++) {
-	    	if (!this._geoSegments.get(i).equals(gsList.get(i))) {
+	    for (int i = 0; i <= _segments.size(); i++) {
+	    	if (!this._segments.get(i).equals(gsList.get(i))) {
 	    		checkRep();
 	    		return false;
 	    	}
@@ -279,9 +290,7 @@ public class GeoFeature {
      * @return a hash code for this.
      **/
     public int hashCode() {
-    	checkRep();
-      //TODO
-    	
+    	checkRep();    	
     	return 1;
     }
 
@@ -292,10 +301,10 @@ public class GeoFeature {
      **/
     public String toString() {
     	checkRep();
-        String result = _geoSegments.get(0).toString();
+        String result = _segments.get(0).toString();
         
-	    for (int i = 0; i <= _geoSegments.size(); i++) {
-	    	result = String.format("%s,%s", result, _geoSegments.get(i)); // get(i) ?
+	    for (int i = 0; i <= _segments.size(); i++) {
+	    	result = String.format("%s,%s", result, _segments.get(i)); // get(i) ?
 	    }
 	    checkRep();
     	return result;

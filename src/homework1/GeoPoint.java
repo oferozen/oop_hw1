@@ -64,28 +64,19 @@ public class GeoPoint {
     // and distance computations). Because of this, you should consider 
     // using ints for your internal representation of GeoPoint. 
 
-    
-    // TODO : change to _variable
-    private final int latitude;
-    private final int longitude;
+    private final int _latitude;
+    private final int _longitude;
     
     /*
      * Abstraction function:
-     *   Geographic decimal coordinate (decimalLatitude, decimalLongitude) =>
-     *   Geographic degrees coordinate ((latitude degrees, latitude minutes, latitude seconds),
-     *                                  (longitude degrees, longitude minutes, longitude seconds)) 
-     * Where:
-     *   latitude degrees = bottom (decimalLatitude / 1000000)
-     *   latitude minutes = bottom (60 * ((decimalLatitude / 1000000) - latitude degrees))
-     *   latitude seconds = bottom (3600 * ((decimalLatitude / 1000000) - (latitude degrees)) - (60 * latitude minutes))
-     *   longitude degrees = bottom (decimalLongitude / 1000000)
-     *   longitude minutes = bottom (60 * ((decimalLongitude / 1000000) - longitude degrees))
-     *   longitude seconds = bottom (3600 * ((decimalLongitude / 1000000) - (longitude degrees)) - (60 * longitude minutes))
-     *
-     * Representation invariant:
-     *   decimalLatitude >= MIN_LATITUDE && decimalLatitude <= MAX_LATITUDE &&
-     *   decimalLongitute > MIN_LONGITUDE && decimalLongitute <= MAX_LONGITUDE
+     *   GeoPoint (latitude, longitude) represent a point on earth which her decimal geographic coordinate 
+     *   are (latitude / 1000000, longitude / 1000000)
      *  
+     * Representation Invariant:
+     *   latitude <= 90*1000000   && 
+     *   latitude >= -90*1000000  &&
+  	 *	 longitude <= 180*1000000 &&
+  	 *   longitude > -180*1000000
      */
     
     /**
@@ -96,10 +87,10 @@ public class GeoPoint {
      * 		   does not fulfill the representation invariant
      **/
   	private void checkRep() {
-  		assert(this.latitude <= 90*1000000);
-  		assert(this.latitude >= -90*1000000);
-  		assert(this.longitude <= 180*1000000);
-  		assert(this.longitude > -180*1000000);
+  		assert(this._latitude <= 90*1000000);
+  		assert(this._latitude >= -90*1000000);
+  		assert(this._longitude <= 180*1000000);
+  		assert(this._longitude > -180*1000000);
   	}
     
     /**
@@ -112,12 +103,8 @@ public class GeoPoint {
      *          given in millionths of degrees.
      **/
     public GeoPoint(int latitude, int longitude) {
-        this.latitude = latitude; 
-        if(longitude == -180 * 1000000) {
-        	this.longitude = -longitude;
-        }else {
-        	this.longitude = longitude;
-        }
+        _latitude = latitude; 
+        _longitude = longitude == -180 * 1000000 ? - longitude : longitude;
         checkRep();
     }
 
@@ -127,8 +114,9 @@ public class GeoPoint {
      * @return the latitude of this in millionths of degrees.
      */
     public int getLatitude() {
+    	int result = _latitude;
     	checkRep();
-        return this.latitude;
+        return result;
     }
 
 
@@ -137,8 +125,9 @@ public class GeoPoint {
      * @return the latitude of this in millionths of degrees.
      */
     public int getLongitude() {
+    	int result = _longitude;
     	checkRep();
-        return this.longitude;
+        return result;
     }
 
 
@@ -152,11 +141,11 @@ public class GeoPoint {
     	checkRep();
     	
     	// Calculating the distance of the latitude component of the two points
-        double latitudeDeltaNormalized =  Math.abs(this.latitude - gp.latitude) / 1000000.0; 
+        double latitudeDeltaNormalized =  Math.abs(this._latitude - gp._latitude) / 1000000.0; 
         double latitdudeDistanceKm = latitudeDeltaNormalized * KM_PER_DEGREE_LATITUDE;
         
         // Calculating the distance of the longitude component of the two points
-        double longtitudeDeltaNormalized =  Math.abs(this.longitude - gp.longitude) / 1000000.0;
+        double longtitudeDeltaNormalized =  Math.abs(this._longitude - gp._longitude) / 1000000.0;
         double longtitudeDistanceKm = longtitudeDeltaNormalized * KM_PER_DEGREE_LONGITUDE;
         
         // Calculating the distance between the two points
@@ -187,8 +176,8 @@ public class GeoPoint {
        // increase in the counterclockwise direction. 
     	checkRep();
     	
-        double latitudeDelta =  gp.latitude - this.latitude; 
-        double longitudeDelta =  gp.longitude - this.longitude;
+        double latitudeDelta =  gp._latitude - this._latitude; 
+        double longitudeDelta =  gp._longitude - this._longitude;
         
         // Calculating the angle in radians between the heading directing of a straight path 
         // that starts in point this and ends in poing gp and the positive direction of the X axis.
@@ -227,8 +216,9 @@ public class GeoPoint {
           
         // field comparison
         GeoPoint other = (GeoPoint) gp;
+        boolean result = this._latitude == other._latitude && this._longitude == other._longitude;
         checkRep();
-        return this.latitude == other.latitude && this.longitude == other.longitude;
+        return result;
     }
 
 
@@ -237,11 +227,12 @@ public class GeoPoint {
      * @return a hash code value for this GeoPoint.
      **/
     public int hashCode() {
+    	int result = this._latitude ^ this._longitude;
     	checkRep();
-    	// bit-wise XOR between the two numbers that make up the representation of a geo-point 
+    	// bit-wise XOR between the two numbers the make up the representation of a geo-point 
     	// provides a viable hash since it is an actual function which means that the hash of a point is well defined.
     	// in addition to that, it's not entirely unique and this could make it quite helpful in possible uses in hash tables. 
-        return this.latitude ^ this.longitude;
+        return result;
     }
 
 
@@ -250,8 +241,9 @@ public class GeoPoint {
      * @return a string representation of this GeoPoint.
      **/
     public String toString() {
+    	String result = String.format("%d,%d", this._latitude, this._longitude);
     	checkRep();
-        return String.format("%d,%d", this.latitude, this.longitude);
+        return result;
     }
 
 }

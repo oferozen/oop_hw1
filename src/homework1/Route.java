@@ -34,18 +34,19 @@ import java.util.Iterator;
  **/
 public class Route {
 
-	private final ArrayList<GeoSegment> _geoSegments = new ArrayList<GeoSegment>();
+	private final ArrayList<GeoSegment> _segments = new ArrayList<GeoSegment>();
 	private final double _length;
 
- 	// TODO Write abstraction function and representation invariant
 	/*
      * Abstraction function:
-     * 
+     *     map a list of segments into a line composed from list of geo-features, where each geo-feature is composed from the
+     *     longest consecutive segments with the same name.
+     *      
      * Representation invariant:
-     *  
+     *     _segments.size() != 0 &&
+     *     foreach i in 0..(_segments.size()-2) => _segments[i].p2 == _segments[i+1].p1 
      *  
      */
-    
     /**
      * Checks if this's status is in line with the representation invariant. 
      * If this is not the case then the running of the program will stop since the checking operation is done 
@@ -54,7 +55,17 @@ public class Route {
      * 		   does not fulfill the representation invariant
      **/
   	private void checkRep() {
-  		return;
+  		
+  		assert(_segments.size() != 0);
+  		
+  		var iter = _segments.iterator();
+  		GeoSegment current = iter.next();
+  		while (iter.hasNext()) {
+  			var next = iter.next();
+  			assert(current.getP2().equals(next.getP1()));
+  			current = next;
+  		}
+  		
   	}
 
   	/**
@@ -67,7 +78,7 @@ public class Route {
      *          r.end = gs.p2
      **/
   	public Route(GeoSegment gs) {
-  		_geoSegments.add(gs);
+  		_segments.add(gs);
   		_length = gs.getLength();
   		checkRep();
   	}
@@ -78,7 +89,7 @@ public class Route {
      *          Methods are invalid until class exit point;
      **/
   	private Route(ArrayList<GeoSegment> geoSegments) {
-  		_geoSegments.addAll(geoSegments);
+  		_segments.addAll(geoSegments);
 		
   		double length = 0;
 		
@@ -95,7 +106,7 @@ public class Route {
      * @return first GeoSegment in the list
      */
 	private GeoSegment firstGeoSegment() {
-		return _geoSegments.get(0);
+		return _segments.get(0);
 	}
 
 	/**
@@ -103,7 +114,7 @@ public class Route {
      * @return last GeoSegment in the list
      */
 	private GeoSegment lastGeoSegment() {
-		return _geoSegments.get(_geoSegments.size() - 1);
+		return _segments.get(_segments.size() - 1);
 	}
 
     /**
@@ -171,7 +182,7 @@ public class Route {
      **/
   	public Route addSegment(GeoSegment gs) {
   		checkRep();
-  		var geoSegments = new ArrayList<>(_geoSegments);
+  		var geoSegments = new ArrayList<>(_segments);
   		geoSegments.add(gs);
   		checkRep();
   		return new Route(geoSegments);
@@ -199,7 +210,7 @@ public class Route {
   	public Iterator<GeoFeature> getGeoFeatures() {
   		checkRep();
   		ArrayList<GeoFeature> geoFeatures = new ArrayList<GeoFeature>();
-  		Iterator<GeoSegment> iter = _geoSegments.iterator();
+  		Iterator<GeoSegment> iter = _segments.iterator();
   		
   		var currentGeoFeature = new GeoFeature(iter.next());
   		
@@ -240,7 +251,7 @@ public class Route {
      **/
   	public Iterator<GeoSegment> getGeoSegments() {
   		checkRep();
-  		return _geoSegments.iterator();
+  		return _segments.iterator();
   	}
 
 
@@ -267,21 +278,22 @@ public class Route {
 	    	return false;
 	    }
 	    
-	    ArrayList<GeoSegment> gsList = ((GeoFeature) o)._geoSegments;
+	    ArrayList<GeoSegment> gsList = ((Route) o)._segments;
 	    
 	    // Compare size
-	    if (this._geoSegments.size() != gsList.size()) {
+	    if (this._segments.size() != gsList.size()) {
 	    	checkRep();
 	    	return false;
 	    }
 	    
 	    // Compare elements
-	    for (int i = 0; i <= _geoSegments.size(); i++) {
-	    	if (!this._geoSegments.get(i).equals(gsList.get(i))) {
+	    for (int i = 0; i <= _segments.size(); i++) {
+	    	if (!this._segments.get(i).equals(gsList.get(i))) {
 	    		checkRep();
 	    		return false;
 	    	}
 	    }
+	    
 	    checkRep();
 	    return true;
   	}
@@ -293,8 +305,6 @@ public class Route {
      **/
   	public int hashCode() {
   		checkRep();
-  		
-    	// TODO
 
     	return 1;
   	}
@@ -306,10 +316,10 @@ public class Route {
      **/
   	public String toString() {
   		checkRep();
-        String result = _geoSegments.get(0).toString();
+        String result = _segments.get(0).toString();
         
-	    for (int i = 0; i <= _geoSegments.size(); i++) {
-	    	result = String.format("%s,%s", result, _geoSegments.get(i));
+	    for (int i = 0; i <= _segments.size(); i++) {
+	    	result = String.format("%s,%s", result, _segments.get(i));
 	    }
 	    checkRep();
     	return result;
