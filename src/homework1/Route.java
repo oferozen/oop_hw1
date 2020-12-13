@@ -185,7 +185,7 @@ public class Route {
   		while(iter.hasNext()) {
   			currentGeoSegment = iter.next();
   			if (currentGeoSegment.getLength() > 0) {
-  				heading = currentGeoSegment.getLength();
+  				heading = currentGeoSegment.getHeading();
   			}
   		}
   		checkRep();
