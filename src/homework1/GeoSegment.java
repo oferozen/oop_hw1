@@ -47,13 +47,12 @@ public class GeoSegment  {
         final private double length;
         final private double heading;
         
-        // TODO Write abstraction function and representation invariant
         /*
          * Abstraction function:
+         *   GeoSegment (p1,p2) represent a strait directed line on earth starting from p1 and ending on p2
          * 
          * Representation invariant:
-         *  
-         *  
+         *   None
          */
         
         /**
@@ -90,7 +89,7 @@ public class GeoSegment  {
          **/
         public GeoSegment reverse() {
         	checkRep();
-        	return new GeoSegment(name, p2, p1);
+        	return new GeoSegment(this.name, this.p2, this.p1);
         }
         
         
@@ -100,7 +99,7 @@ public class GeoSegment  {
          */
         public String getName() {
         	checkRep();
-            return name;
+            return this.name;
         }
         
         
@@ -110,7 +109,7 @@ public class GeoSegment  {
          */
         public GeoPoint getP1() {
         	checkRep();
-            return p1;
+            return this.p1;
         }
         
         
@@ -120,7 +119,7 @@ public class GeoSegment  {
          */
         public GeoPoint getP2() {
         	checkRep();
-            return p2;
+            return this.p2;
         }
         
         
