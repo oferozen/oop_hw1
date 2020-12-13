@@ -336,7 +336,7 @@ public class GeoFeature {
     	checkRep();
         String result = this.segments.get(0).toString();
         
-	    for (int i = 0; i <= this.segments.size(); i++) {
+	    for (int i = 0; i < this.segments.size(); i++) {
 	    	result = String.format("%s,%s", result, this.segments.get(i)); // get(i) ?
 	    }
 	    checkRep();
