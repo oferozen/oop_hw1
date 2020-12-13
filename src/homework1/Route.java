@@ -35,7 +35,7 @@ import java.util.List;
  **/
 public class Route {
 
-	private final ArrayList<GeoSegment> segments = new ArrayList<GeoSegment>();
+	private final List<GeoSegment> segments = new ArrayList<GeoSegment>();
 	private final double length;
 
 	/*
@@ -89,7 +89,7 @@ public class Route {
      * @effects Constructs a new Route.
      *          Methods are invalid until class exit point;
      **/
-  	private Route(ArrayList<GeoSegment> geoSegments) {
+  	private Route(List<GeoSegment> geoSegments) {
   		this.segments.addAll(geoSegments);
 		
   		double length = 0;
@@ -243,7 +243,7 @@ public class Route {
      **/
   	public Iterator<GeoFeature> getGeoFeatures() {
   		checkRep();
-  		ArrayList<GeoFeature> geoFeatures = new ArrayList<GeoFeature>();
+  		List<GeoFeature> geoFeatures = new ArrayList<GeoFeature>();
   		Iterator<GeoSegment> iter = this.segments.iterator();
   		
   		var currentGeoFeature = new GeoFeature(iter.next());
@@ -312,7 +312,7 @@ public class Route {
 	    	return false;
 	    }
 	    
-	    ArrayList<GeoSegment> gsList = ((Route) o).segments;
+	    List<GeoSegment> gsList = ((Route) o).segments;
 	    
 	    // Compare size
 	    if (this.segments.size() != gsList.size()) {

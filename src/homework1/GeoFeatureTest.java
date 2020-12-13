@@ -66,6 +66,12 @@ public class GeoFeatureTest {
   		gf1_copy = buildFeature(null, 0, 6);
   		gf2 = buildFeature(null, 6, 0);
   		
+  		var iter = gf1.getGeoSegments();
+  		for (int i = 0; i <= 6; i++) {
+  			var segment = iter.next();
+  			show(line(),segment.equals(ExampleGeoSegments.segments[i]));
+  		}
+  		
 		show(line(), gf1.equals(gf1));
 		show(line(), !gf1.equals(null));
 		show(line(), gf1.equals(buildFeature(null, 0, 6)));
