@@ -153,15 +153,15 @@ public class Route {
   		}
   		// route's length is not zero; find the first segment with a length longer than zero
   		Iterator<GeoSegment> iter = this.segments.iterator();
-  		GeoSegment currentGeoSegment = null;
+  		double heading = 0;
   		while(iter.hasNext()) {
-  			currentGeoSegment = iter.next();
-  			if (currentGeoSegment.getLength() > 0) {
+  			heading = iter.next().getHeading();
+  			if (heading > 0) {
   				break;
   			}
   		}
   		checkRep();
-  		return currentGeoSegment.getHeading();
+  		return heading;
   	}
 
 
@@ -181,15 +181,15 @@ public class Route {
   		// route's length is not zero; find the last segment with a length longer than zero
   		Iterator<GeoSegment> iter = this.segments.iterator();
   		GeoSegment currentGeoSegment = null;
-  		GeoSegment lastPositiveSegment = null;
+  		double heading = 0;
   		while(iter.hasNext()) {
   			currentGeoSegment = iter.next();
   			if (currentGeoSegment.getLength() > 0) {
-  				lastPositiveSegment = currentGeoSegment;
+  				heading = currentGeoSegment.getLength();
   			}
   		}
   		checkRep();
-  		return lastPositiveSegment.getHeading();
+  		return heading;
   	}
 
 

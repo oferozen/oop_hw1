@@ -174,22 +174,22 @@ public class GeoFeature {
      *         0 returned if this.length = 0
      */
     public double getStartHeading() {
-    	checkRep();
-  		// if the length of this geo feature is zero then heading is 0 degrees according to the convention we chose
+  		checkRep();
+  		// if the length of this geoFeature is zero then heading is 0 degrees according to the convention we chose
   		if(this.length == 0) {
   			return 0;
   		}
-  		// length of this is not zero; find the first segment with a length longer than zero
+  		// geoFeature length is not zero; find the first segment with a length longer than zero
   		Iterator<GeoSegment> iter = this.segments.iterator();
-  		GeoSegment currentGeoSegment = null;
+  		double heading = 0;
   		while(iter.hasNext()) {
-  			currentGeoSegment = iter.next();
-  			if (currentGeoSegment.getLength() > 0) {
+  			heading = iter.next().getHeading();
+  			if (heading > 0) {
   				break;
   			}
   		}
   		checkRep();
-  		return currentGeoSegment.getHeading();
+  		return heading;
     }
 
 
@@ -201,8 +201,23 @@ public class GeoFeature {
      *         0 returned if this.length = 0
      */
     public double getEndHeading() {
-    	checkRep();
-    	return lastGeoSegment().getHeading();
+  		checkRep();
+  		// if the length of this geoFeature is zero then heading is 0 degrees according to the convention we chose
+  		if(this.length == 0) {
+  			return 0;
+  		}
+  		// geoFeature's length is not zero; find the last segment with a length longer than zero
+  		Iterator<GeoSegment> iter = this.segments.iterator();
+  		GeoSegment currentGeoSegment = null;
+  		double heading = 0;
+  		while(iter.hasNext()) {
+  			currentGeoSegment = iter.next();
+  			if (currentGeoSegment.getLength() > 0) {
+  				heading = currentGeoSegment.getLength();
+  			}
+  		}
+  		checkRep();
+  		return heading;
     }
 
 
