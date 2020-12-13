@@ -13,7 +13,7 @@ public class GeoFeatureTest {
   		int delta = start < end ? 1 : -1;
   		
   		if (gf == null) {
-  			gf = new GeoFeature(ExampleGeoSegments.segments[start]);
+  			gf = new GeoFeature(delta > 0 ? ExampleGeoSegments.segments[start] : ExampleGeoSegments.segments[start].reverse());
   		} else {
   			gf = gf.addSegment(delta > 0 ? ExampleGeoSegments.segments[start] : ExampleGeoSegments.segments[start].reverse());
   		}

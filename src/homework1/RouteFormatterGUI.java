@@ -151,8 +151,7 @@ public class RouteFormatterGUI extends JPanel {
 		if(route == null) {
 			this.route = new Route(segment);
 		} else {
-			if (!((this.route.getEnd().equals(segment.getP1())) ||
-					(this.route.getEnd().equals(segment.getP2())))){
+			if (!this.route.getEnd().equals(segment.getP1())){
 				return;
 			}
 			this.route = this.route.addSegment(segment);
