@@ -1,6 +1,6 @@
 package homework1;
 
-public class GeoFeatureTest {
+public class RouteTest {
 
 
 	private static final double tolerance = 0.01;
@@ -21,34 +21,30 @@ public class GeoFeatureTest {
 			ExampleGeoSegments.segments[14],
 			ExampleGeoSegments.segments[15],
 	};
-	
-	GeoFeatureTest (){
-		
-	}
    
-  	private GeoFeature buildFeature(GeoFeature gf, int start, int end) {
+  	private Route buildFeature(Route route, int start, int end) {
   		
   		assert(start >= 0 && start < segments.length );
   		assert(end >= 0 && end < segments.length );
 
   		int delta = start < end ? 1 : -1;
   		
-  		if (gf == null) {
-  			gf = new GeoFeature(delta > 0 ? segments[start] : segments[start].reverse());
+  		if (route == null) {
+  			route = new Route(delta > 0 ? segments[start] : segments[start].reverse());
   		} else {
-  			gf = gf.addSegment(delta > 0 ? segments[start] : segments[start].reverse());
+  			route = route.addSegment(delta > 0 ? segments[start] : segments[start].reverse());
   		}
   		
   		if (start == end) {
-  			return gf;
+  			return route;
   		}
   		
   		do {
   			start += delta;
-  			gf = gf.addSegment(delta > 0 ? segments[start] : segments[start].reverse());
+  			route = route.addSegment(delta > 0 ? segments[start] : segments[start].reverse());
   		} while(start != end);
   		
-  		return gf;
+  		return route;
   	}
   	
  	
@@ -80,49 +76,48 @@ public class GeoFeatureTest {
   	
   	public void test() {
   		
-  		GeoFeature gf1, gf1_copy, gf2, gf3;
-  		gf1 = gf1_copy = gf2 = gf3 = null;
+  		Route rout1, rout1_copy, rout2, rout3;
+  		rout1 = rout1_copy = rout2 = rout3 = null;
   		
-  		gf1 = buildFeature(null, 0, 6);
-  		gf1_copy = buildFeature(null, 0, 6);
-  		gf2 = buildFeature(null, 6, 0);
+  		rout1 = buildFeature(null, 0, 6);
+  		rout1_copy = buildFeature(null, 0, 6);
+  		rout2 = buildFeature(null, 6, 0);
   		
-  		var iter = gf1.getGeoSegments();
+  		var iter = rout1.getGeoSegments();
   		for (int i = 0; i <= 6; i++) {
   			var segment = iter.next();
   			show(line(),segment.equals(segments[i]));
   		}
   		
-		show(line(), gf1.equals(gf1));
-		show(line(), !gf1.equals(null));
-		show(line(), gf1.equals(buildFeature(null, 0, 6)));
-		show(line(), gf1.equals(gf1_copy));
+		show(line(), rout1.equals(rout1));
+		show(line(), !rout1.equals(null));
+		show(line(), rout1.equals(buildFeature(null, 0, 6)));
+		show(line(), rout1.equals(rout1_copy));
 
-		gf3 = gf1.addSegment(segments[7]);
+		rout3 = rout1.addSegment(segments[7]);
 		
-		show(line(), !gf1.equals(gf3));
+		show(line(), !rout1.equals(rout3));
 		
-		gf1 = gf1.addSegment(segments[7]);
+		rout1 = rout1.addSegment(segments[7]);
 
-		show(line(), gf1.equals(gf3));
+		show(line(), rout1.equals(rout3));
 		
-		gf1 = gf1.addSegment(segments[8]);
+		rout1 = rout1.addSegment(segments[8]);
 		
-		show(line(), !gf1.equals(gf3));
+		show(line(), !rout1.equals(rout3));
 		
 		
-  		gf1 = buildFeature(null, segments.length - 1, 0);
-  		gf2 = buildFeature(null, segments.length - 1, 1);
+  		rout1 = buildFeature(null, segments.length - 1, 0);
+  		rout2 = buildFeature(null, segments.length - 1, 1);
   		
-		show(line(), !gf1.equals(gf2));
-		gf2 = buildFeature(gf2, 0, 0);
-		show(line(), gf1.equals(gf2));				
-		
+		show(line(), !rout1.equals(rout2));
+		rout2 = buildFeature(rout2, 0, 0);
+		show(line(), rout1.equals(rout2));			
   	}
 
 
 	public static void main(String[] args) {
-		GeoFeatureTest test = new GeoFeatureTest();
+		RouteTest test = new RouteTest();
 		test.test();
 	}
 	
