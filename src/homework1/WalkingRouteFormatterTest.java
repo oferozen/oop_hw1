@@ -8,8 +8,10 @@ public class WalkingRouteFormatterTest {
   
   	public WalkingRouteFormatterTest() {
     	mDirections = new WalkingRouteFormatter();
-    	mShortRoute = new Route(new GeoSegment("Trumpeldor Avenue",
-    			new GeoPoint(32783098,35014528), new GeoPoint(32787081,35020735)));
+    	mShortRoute = new Route(new GeoSegment("La rambla Avenue",
+    			new GeoPoint(32783098,35014528), new GeoPoint(32783098,35014528)));
+    		mShortRoute = mShortRoute.addSegment(new GeoSegment("Trumpeldor Avenue",
+        			new GeoPoint(32783098,35014528), new GeoPoint(32787081,35020735)));
     		mShortRoute = mShortRoute.addSegment(new GeoSegment("Hagalil",
     			new GeoPoint(32787081,35020735), new GeoPoint(32795631,35010296)));
     		mShortRoute = mShortRoute.addSegment(new GeoSegment("Hagefen",

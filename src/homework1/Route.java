@@ -2,6 +2,7 @@ package homework1;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * A Route is a path that traverses arbitrary GeoSegments, regardless
@@ -139,23 +140,56 @@ public class Route {
 
   	/**
   	 * Returns direction of travel at the start of the route, in degrees.
+  	 * the start of the route is the first segment of the route with a positive length
    	 * @return direction (in compass heading) of travel at the start of the
-   	 *         route, in degrees.
+   	 *         route, in degrees if this.length > 0.
+   	 *         0 returned if this.length = 0
    	 **/
   	public double getStartHeading() {
   		checkRep();
-  		return firstGeoSegment().getHeading();
+  		// if the length of this route is zero then heading is 0 degrees according to the convention we chose
+  		if(this.length == 0) {
+  			return 0;
+  		}
+  		// route's length is not zero; find the first segment with a length longer than zero
+  		Iterator<GeoSegment> iter = this.segments.iterator();
+  		GeoSegment currentGeoSegment = null;
+  		while(iter.hasNext()) {
+  			currentGeoSegment = iter.next();
+  			if (currentGeoSegment.getLength() > 0) {
+  				break;
+  			}
+  		}
+  		checkRep();
+  		return currentGeoSegment.getHeading();
   	}
 
 
   	/**
   	 * Returns direction of travel at the end of the route, in degrees.
+  	 * the start of the route is the last segment of the route with a positive length
      * @return direction (in compass heading) of travel at the end of the
-     *         route, in degrees.
+     *         route, in degrees if this.length > 0.
+   	 *         0 returned if this.length = 0
      **/
   	public double getEndHeading() {
   		checkRep();
-  		return lastGeoSegment().getHeading();
+  		// if the length of this route is zero then heading is 0 degrees according to the convention we chose
+  		if(this.length == 0) {
+  			return 0;
+  		}
+  		// route's length is not zero; find the last segment with a length longer than zero
+  		Iterator<GeoSegment> iter = this.segments.iterator();
+  		GeoSegment currentGeoSegment = null;
+  		GeoSegment lastPositiveSegment = null;
+  		while(iter.hasNext()) {
+  			currentGeoSegment = iter.next();
+  			if (currentGeoSegment.getLength() > 0) {
+  				lastPositiveSegment = currentGeoSegment;
+  			}
+  		}
+  		checkRep();
+  		return lastPositiveSegment.getHeading();
   	}
 
 

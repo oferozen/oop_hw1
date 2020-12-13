@@ -168,19 +168,37 @@ public class GeoFeature {
 
     /**
      * Returns direction of travel at the start of the geographic feature.
+     * the start of the geoFeature is the first segment of the geo Feature with a positive length
      * @return direction (in standard heading) of travel at the start of the
-     *         geographic feature, in degrees.
+     *         geographic feature, in degrees if this.length > 0.
+     *         0 returned if this.length = 0
      */
     public double getStartHeading() {
     	checkRep();
-        return firstGeoSegment().getHeading();
+  		// if the length of this geo feature is zero then heading is 0 degrees according to the convention we chose
+  		if(this.length == 0) {
+  			return 0;
+  		}
+  		// length of this is not zero; find the first segment with a length longer than zero
+  		Iterator<GeoSegment> iter = this.segments.iterator();
+  		GeoSegment currentGeoSegment = null;
+  		while(iter.hasNext()) {
+  			currentGeoSegment = iter.next();
+  			if (currentGeoSegment.getLength() > 0) {
+  				break;
+  			}
+  		}
+  		checkRep();
+  		return currentGeoSegment.getHeading();
     }
 
 
     /**
      * Returns direction of travel at the end of the geographic feature.
+     * the end of the geoFeature is the last segment of the geo Feature with a positive length
      * @return direction (in standard heading) of travel at the end of the
-     *         geographic feature, in degrees.
+     *         geographic feature, in degrees if this.length > 0.
+     *         0 returned if this.length = 0
      */
     public double getEndHeading() {
     	checkRep();

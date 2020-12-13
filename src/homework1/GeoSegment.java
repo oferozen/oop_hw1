@@ -52,7 +52,9 @@ public class GeoSegment  {
          *   GeoSegment (p1,p2) represent a strait directed line on earth starting from p1 and ending on p2
          * 
          * Representation invariant:
-         *   None
+         *   NONE 
+         *   still we added checkRep() within the methods in case some changes were made
+         *   and a future condition must hold true.
          */
         
         /**
@@ -77,7 +79,12 @@ public class GeoSegment  {
             this.p1 = p1;
             this.p2 = p2;
             this.length = p1.distanceTo(p2);
-            this.heading = p1.headingTo(p2);
+            // handle the corner case in which p1 == p2 (length = 0)
+            if(p1.equals(p2) == true) {
+            	this.heading = 0;
+            } else {
+            	this.heading = p1.headingTo(p2);
+            }
             checkRep();
         }
         
@@ -135,9 +142,9 @@ public class GeoSegment  {
         
         /**
          * Returns the compass heading from p1 to p2.
-         * @requires this.length != 0
          * @return the compass heading from p1 to p2, in degrees, using the
          *         flat-surface, near the Technion approximation.
+         *         if this.length == 0 then the returned heading direction is 0 degrees
          **/
         public double getHeading() {
         	checkRep();

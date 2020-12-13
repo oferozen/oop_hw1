@@ -114,6 +114,7 @@ public class GeoPoint {
      * @return the latitude of this in millionths of degrees.
      */
     public int getLatitude() {
+    	checkRep();
     	int result = this.latitude;
     	checkRep();
         return result;

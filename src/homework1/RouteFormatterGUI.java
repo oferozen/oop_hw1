@@ -169,7 +169,7 @@ public class RouteFormatterGUI extends JPanel {
 		JFrame frame = new JFrame("Route Formatter GUI");
 		Container contentPane = frame.getContentPane();
 		contentPane.add(new RouteFormatterGUI(frame));
-
+		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.pack();
 		frame.setVisible(true);
